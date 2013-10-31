@@ -5,6 +5,7 @@ function Oval()
 	this.center_y  = 0;
 	this.microaxis = 0;
 	this.macroaxis = 0;
+	this.angle 	   = 0;
 	this.setOval = function(center_x,center_y,macroaxis,microaxis)
 	{
 		this.center_x = center_x;
