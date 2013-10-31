@@ -19,8 +19,8 @@
         <gap:platform name="symbian.wrt" />
         <gap:platform name="blackberry" project="widgets"/>
     </gap:platforms>
-    <icon src="icons/icon.png" gap:role="default" /> 
-    <gap:splash src="icons/splash.png"/> 
+    <icon src="images/icon.png" gap:role="default" /> 
+    <gap:splash src="images/splash.png"/> 
     <feature name="http://api.phonegap.com/1.0/geolocation"/>
     <feature name="http://api.phonegap.com/1.0/network"/>
     
