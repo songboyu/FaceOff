@@ -363,19 +363,19 @@ function drawFaces(faces) {
                     // ctx.rotate(0-angle);
                     //设置显示人物名框大小
                     ctx.fillStyle = "#37ACA2";
-                    if (NameList[index].length == 5) { //5个字人名
+                    if (NameList_show[index].length == 5) { //5个字人名
                         drawRect({
                             x: 1,
                             y: currentImg.height / scale - 36
                         },
                         105, 35, true, false, false);
-                    } else if (NameList[index].length == 4) { //4个字人名
+                    } else if (NameList_show[index].length == 4) { //4个字人名
                         drawRect({
                             x: 1,
                             y: currentImg.height / scale - 36
                         },
                         95, 35, true, false, false);
-                    } else if (NameList[index].length == 3) { //3个字人名
+                    } else if (NameList_show[index].length == 3) { //3个字人名
                         drawRect({
                             x: 1,
                             y: currentImg.height / scale - 36
@@ -391,7 +391,7 @@ function drawFaces(faces) {
                     //设置显示人物名
                     ctx.fillStyle = "#FFFFFF";
                     ctx.font = '20px "微软雅黑"';
-                    ctx.fillText(NameList[index], 9, currentImg.height / scale - 8);
+                    ctx.fillText(NameList_show[index], 9, currentImg.height / scale - 8);
                     //设置显示分数框大小
                     ctx.fillStyle = "#E2D004";
                     drawRect({
