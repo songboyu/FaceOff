@@ -7,203 +7,206 @@ var queryParams, query, url, accessToken, md5str, md5Value, uid, aid;
 var times = 0;
 document.getElementById("friends").style.display="none";
 function RRcallback(){
-	document.getElementById("renrenConnect").style.display="none";
-	document.getElementById("friends").style.display="";
-	// document.getElementById("album").style.display="";
+	
 	var album = $('<a data-role="button" href="#page5" data-transition="slidedown" data-icon="arrow-r" data-inline="true" data-theme="a">好友照片</a>');
 	$("#buttons").append(album);
 
-	//var access = window.location.hash.substring(1);
 	var frame = document.getElementById("rriframe");
-	var access = frame.contentWindow.location.href;
+	var url = frame.contentWindow.location.href;
+	var _s = url.split('#');
 
-	var start = access.indexOf('=')+1;
-	var end = access.indexOf('&');
+	if(typeof(_s[1]) != "undefined"){
+		var _ss = _s[1].split('&');
+		var token = _ss[0].split('=')[1];
+		accessToken = decodeURI(token);
+		//alert(accessToken);
+		queryParams = 
+		[ 
+			'access_token='+accessToken,
+			'format=JSON',
+			'method=friends.getFriends',
+			'v=1.0' 
+		];
+		query = queryParams.join('&');
 
-	accessToken = decodeURI(access.substring(start,end));
-	queryParams = 
-	[ 
-		'access_token='+accessToken,
-		'format=JSON',
-		'method=friends.getFriends',
-		'v=1.0' 
-	];
-	query = queryParams.join('&');
+		md5str = queryParams.join('') + Secret_Key;
+	  
+		md5Value = $.md5(md5str)
 
-	md5str = queryParams.join('') + Secret_Key;
-  
-	md5Value = $.md5(md5str)
+		query = query+'&sig='+md5Value;
 
-	query = query+'&sig='+md5Value;
+		$.ajax
+		({
+			type: "Post",
+			url: "http://soongboyu.eicp.net/php/renren.php",
+			data: {data: query},
+			dataType: "json",
+			success: function(jsonData)
+			{
+				document.getElementById("renrenConnect").style.display="none";
+				document.getElementById("friends").style.display="";
 
-	$.ajax
-	({
-		type: "Post",
-		url: "php/renren.php",
-		data: {data: query},
-		dataType: "json",
-		success: function(jsonData)
-		{
-			var pullUpEl, pullUpOffset,
-			displayCount = 0;
-			var len = jsonData.length;
-		    if(win_height < win_width){
-		        $('#headlistHeader').css('height','6%');
-		        $('#headContent').css('height','94%');
-		    }
-		    else if(!isMobile.any()){
-		        $('#headlistHeader').css('height','3%');
+				$.mobile.changePage("#page1", "slidedown", true, true);
 
-		        $('#headContent').css({'height':'97%','top':'4%'});
-		    } else{
-		        $('#headlistHeader').height(win_height * 0.04);
-		        $('#headContent').height(win_height * 0.96);
+				var pullUpEl, pullUpOffset,
+				displayCount = 0;
+				var len = jsonData.length;
+			    if(win_height < win_width){
+			        $('#headlistHeader').css('height','6%');
+			        $('#headContent').css('height','94%');
+			    }
+			    else if(!isMobile.any()){
+			        $('#headlistHeader').css('height','3%');
 
-		    }
-			friends_loaded = function() {
-				pullUpEl = document.getElementById('pullUp');	
-				pullUpOffset = pullUpEl.offsetHeight;
-				var topOffset = $("#headlistHeader").height() - 60;
-				myScroll = new iScroll('headContent', {
-					useTransition: true,
-					topOffset: topOffset,
-					onRefresh: function () {
-						if (pullUpEl.className.match('loading')) {
-							pullUpEl.className = '';
-							pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉可以查看更多...';
-						}
+			        $('#headContent').css({'height':'97%','top':'4%'});
+			    } else{
+			        $('#headlistHeader').height(win_height * 0.04);
+			        $('#headContent').height(win_height * 0.96);
 
-					},
-					onScrollMove: function () {
-						scrollMoved = true;
-						if (this.y < (this.maxScrollY - 60) && !pullUpEl.className.match('flip')) {
-							pullUpEl.className = 'flip';
-							pullUpEl.querySelector('.pullUpLabel').innerHTML = '松开即可查看更多...';
+			    }
+				friends_loaded = function() {
+					pullUpEl = document.getElementById('pullUp');	
+					pullUpOffset = pullUpEl.offsetHeight;
+					var topOffset = $("#headlistHeader").height() - 60;
+					myScroll = new iScroll('headContent', {
+						useTransition: true,
+						topOffset: topOffset,
+						onRefresh: function () {
+							if (pullUpEl.className.match('loading')) {
+								pullUpEl.className = '';
+								pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉可以查看更多...';
+							}
 
-						} else if (this.y > (this.maxScrollY - 60) && pullUpEl.className.match('flip')) {
-							pullUpEl.className = '';
-							pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉可以查看更多...';
+						},
+						onScrollMove: function () {
+							scrollMoved = true;
+							if (this.y < (this.maxScrollY - 60) && !pullUpEl.className.match('flip')) {
+								pullUpEl.className = 'flip';
+								pullUpEl.querySelector('.pullUpLabel').innerHTML = '松开即可查看更多...';
 
-						}
-						if(this.y < (this.maxScrollY + 40)){
-							$("#pullUp").css('display','');
-						}
-						else {
+							} else if (this.y > (this.maxScrollY - 60) && pullUpEl.className.match('flip')) {
+								pullUpEl.className = '';
+								pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉可以查看更多...';
+
+							}
+							if(this.y < (this.maxScrollY + 40)){
+								$("#pullUp").css('display','');
+							}
+							else {
+								$("#pullUp").css('display','none');
+							}
+							if(displayCount == len){
+								pullUpEl.className = 'done';
+								pullUpEl.querySelector('.pullUpLabel').innerHTML = '已加载全部好友';
+							}
+						},
+						onScrollEnd: function () {
 							$("#pullUp").css('display','none');
+							if (pullUpEl.className.match('flip')) {
+								pullUpEl.className = 'loading';
+								pullUpEl.querySelector('.pullUpLabel').innerHTML = '正在刷新...';				
+								pullUpAction();	
+							}
+
 						}
-						if(displayCount == len){
+					});
+					
+				}
+				pullUpAction = function(){
+					for (var i = 0; i < 15; i++)
+					{
+						if(displayCount < len)
+						{
+							var li = $('<li></li>');
+							var hr = $('<a></a>');
+							var img = document.createElement('img');
+							img.src = jsonData[displayCount].headurl;
+							img.alt = jsonData[displayCount].id;
+							img.title = jsonData[displayCount].name;
+							img.width=img.height=80;
+							hr.append(img);
+							hr.append(jsonData[displayCount].name);
+							li.append(hr);
+							$('#headlist').append(li);
+							displayCount++;
+						}
+						else{
 							pullUpEl.className = 'done';
 							pullUpEl.querySelector('.pullUpLabel').innerHTML = '已加载全部好友';
 						}
-					},
-					onScrollEnd: function () {
-						$("#pullUp").css('display','none');
-						if (pullUpEl.className.match('flip')) {
-							pullUpEl.className = 'loading';
-							pullUpEl.querySelector('.pullUpLabel').innerHTML = '正在刷新...';				
-							pullUpAction();	
+					}
+					$("#page3").page();
+					$( "#headlist" ).listview( "refresh" );
+					myScroll.refresh();
+				}
+
+				if(times==0)
+				{
+					times=1;
+					if(!isMobile.any()){
+						$("#headScroller").css('display','none');
+					}
+					for (var i = 0; i < 11; i++)
+					{
+						if(i < len)
+						{
+							var li = $('<li></li>');
+							li.height(90);
+							var hr = $('<a></a>');
+							var img = document.createElement('img');
+							img.src = jsonData[i].headurl;
+							img.alt = jsonData[i].id;
+							img.title = jsonData[i].name;
+							img.width=img.height=80;
+							hr.append(img);
+							hr.append(jsonData[i].name);
+							li.append(hr);
+							$('#headlist').append(li);
+							displayCount++;
 						}
-
 					}
-				});
-				
-			}
-			pullUpAction = function(){
-				for (var i = 0; i < 15; i++)
-				{
-					if(displayCount < len)
-					{
-						var li = $('<li></li>');
-						var hr = $('<a></a>');
-						var img = document.createElement('img');
-						img.src = jsonData[displayCount].headurl;
-						img.alt = jsonData[displayCount].id;
-						img.title = jsonData[displayCount].name;
-						img.width=img.height=80;
-						hr.append(img);
-						hr.append(jsonData[displayCount].name);
-						li.append(hr);
-						$('#headlist').append(li);
-						displayCount++;
-					}
-					else{
-						pullUpEl.className = 'done';
-						pullUpEl.querySelector('.pullUpLabel').innerHTML = '已加载全部好友';
-					}
-				}
-				$("#page3").page();
-				$( "#headlist" ).listview( "refresh" );
-				myScroll.refresh();
-			}
-
-			if(times==0)
-			{
-				times=1;
-				if(!isMobile.any()){
-					$("#headScroller").css('display','none');
-				}
-				for (var i = 0; i < 11; i++)
-				{
-					if(i < len)
-					{
-						var li = $('<li></li>');
-						li.height(90);
-						var hr = $('<a></a>');
-						var img = document.createElement('img');
-						img.src = jsonData[i].headurl;
-						img.alt = jsonData[i].id;
-						img.title = jsonData[i].name;
-						img.width=img.height=80;
-						hr.append(img);
-						hr.append(jsonData[i].name);
-						li.append(hr);
-						$('#headlist').append(li);
-						displayCount++;
-					}
-				}
-				$("#page3").page();
-				$( "#headlist" ).listview( "refresh" );
-				
-				$("#friends").unbind('click').click(function(){
-					if(isMobile.any())
-						setTimeout(friends_loaded,2000);
-					else
+					$("#page3").page();
+					$( "#headlist" ).listview( "refresh" );
+					
+					$("#friends").unbind('click').click(function(){
+						if(isMobile.any())
+							setTimeout(friends_loaded,2000);
+						else
+							setTimeout(function(){
+								$("#headScroller").css('display','');
+								friends_loaded();
+								
+							},3000);
+					});
+					$("#backToFreinds").unbind('click').click(function(){
 						setTimeout(function(){
-							$("#headScroller").css('display','');
-							friends_loaded();
-							
-						},3000);
-				});
-				$("#backToFreinds").unbind('click').click(function(){
-					setTimeout(function(){
-							friends_loaded();
-					},1000);
-				});
-				$("#friendsBackToHome").unbind('click').click(function(){
-					myScroll.destroy();
-					myScroll = null;
-				});
+								friends_loaded();
+						},1000);
+					});
+					$("#friendsBackToHome").unbind('click').click(function(){
+						myScroll.destroy();
+						myScroll = null;
+					});
+				}
 			}
-		}
-	});
+		});
+		
+	}
 }
 $('#renrenConnect').click(function() {
-	if (window.location.hash.length == 0)
-	{
-		queryParams = 
-		[
-			'client_id=' + API_Key,
-			//'redirect_uri=' + window.location,
-			'redirect_uri=http://graph.renren.com/oauth/login_success.html',
-			'response_type=token',
-			'display=touch',
-			'scope=read_user_album+read_user_photo'
-		];
-		query = queryParams.join('&');
-		url = path + query;
-		// window.location = url;
-		$('#page12').append('<iframe id="rriframe" width="100%" height="100%" src='+url+'  onload="RRcallback()"></iframe>');
-	}  
+	queryParams = 
+	[
+		'client_id=' + API_Key,
+		//'redirect_uri=' + window.location,
+		'redirect_uri=http://graph.renren.com/oauth/login_success.html',
+		'response_type=token',
+		'display=touch',
+		'scope=read_user_album+read_user_photo'
+	];
+	query = queryParams.join('&');
+	url = path + query;
+	// window.location = url;
+	$('#RRiframeContent').append('<iframe id="rriframe" width="100%" height="100%" src='+url+'  onload="RRcallback()"></iframe>');
 });
  
 $( "#headlist" ).unbind('click').click(function(data){
@@ -241,7 +244,7 @@ $( "#headlist" ).unbind('click').click(function(data){
 		$.ajax
 		({
 			type: "Post",
-			url: "php/renren.php",
+			url: "http://soongboyu.eicp.net/php/renren.php",
 			data: {data: query},
 			dataType:"JSON",
 			success: function (jsonData){
@@ -304,7 +307,7 @@ $( "#albumslist" ).unbind('click').click(function(data){
 
 	$.ajax({
 		type: "Post",
-		url: "php/renren.php",
+		url: "http://soongboyu.eicp.net/php/renren.php",
 		data: {data: query},
 		dataType:"JSON",
 		success: function (jsonData){
@@ -341,10 +344,10 @@ $('.photolist').unbind('click').click(function(data, handler)
 		$.mobile.changePage("#page2","slidedown", true, true);
 		$.ajax({
 			type: "POST",
-			url: "php/uploadByUrl.php",
+			url: "http://soongboyu.eicp.net/php/uploadByUrl.php",
 			data: { url: data.target.alt},
 			success: function (imageURL){
-				imageURL = 'http://xiangt920.eicp.net/'+imageURL;
+				imageURL = 'http://soongboyu.eicp.net/'+imageURL;
 				drawImg(imageURL);
 			}
 		});
