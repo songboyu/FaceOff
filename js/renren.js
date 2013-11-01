@@ -6,15 +6,17 @@ var requestURL = 'http://api.renren.com/restserver.do?';
 var queryParams, query, url, accessToken, md5str, md5Value, uid, aid;
 var times = 0;
 document.getElementById("friends").style.display="none";
-if (window.location.hash.length !== 0)
-{
+function RRcallback(){
 	document.getElementById("renrenConnect").style.display="none";
 	document.getElementById("friends").style.display="";
 	// document.getElementById("album").style.display="";
 	var album = $('<a data-role="button" href="#page5" data-transition="slidedown" data-icon="arrow-r" data-inline="true" data-theme="a">好友照片</a>');
 	$("#buttons").append(album);
 
-	var access = window.location.hash.substring(1);
+	//var access = window.location.hash.substring(1);
+	var frame = document.getElementById("rriframe");
+	var access = frame.contentWindow.location.href;
+
 	var start = access.indexOf('=')+1;
 	var end = access.indexOf('&');
 
@@ -184,7 +186,6 @@ if (window.location.hash.length !== 0)
 			}
 		}
 	});
-  
 }
 $('#renrenConnect').click(function() {
 	if (window.location.hash.length == 0)
@@ -192,15 +193,16 @@ $('#renrenConnect').click(function() {
 		queryParams = 
 		[
 			'client_id=' + API_Key,
-			'redirect_uri=' + window.location,
+			//'redirect_uri=' + window.location,
+			'redirect_uri=http://graph.renren.com/oauth/login_success.html',
 			'response_type=token',
 			'display=touch',
 			'scope=read_user_album+read_user_photo'
 		];
 		query = queryParams.join('&');
 		url = path + query;
-		//window.open(url);
-		window.location = url;
+		// window.location = url;
+		$('#page12').append('<iframe id="rriframe" width="100%" height="100%" src='+url+'  onload="RRcallback()"></iframe>');
 	}  
 });
  
