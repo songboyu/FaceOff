@@ -1,6 +1,10 @@
 .ui-page.ui-body-a.ui-page-active .ui-header.ui-bar-a { display: none; }
 
-#page1 .ui-content { padding-top: 125px; padding-bottom: 15px; margin: 0px 15px 10px 15px; }
+#page1 .ui-content { 
+	padding-top: 125px; 
+	padding-bottom: 15px; 
+	margin: 0px 15px 10px 15px; 
+}
 
 #page1 {
 	background-color: transparent;
@@ -9,7 +13,16 @@
 	background-color: transparent;
 }
 
-#page1 .ui-listview { text-align: center; }
+#page1 .ui-listview li{
+	background: transparent;
+}
+
+#page1 .ui-listview { 
+	text-align: center; 
+	margin: auto;
+	width: 500px;
+}
+
 #page1 .ui-listview .ui-btn {
 	width: 75px;
 	display: inline-block;
@@ -28,12 +41,17 @@
 	display: block;
 }
 #page1 div.ui-content {
-	margin-top: 405px;
+	margin-top: 10%;
 }
 
 #page1 .ui-listview .ui-btn .ui-li { border: none; }
 #page1 .ui-listview .ui-btn .ui-li .ui-icon { display: none; }
-#page1 .ui-listview .ui-btn .ui-li .ui-link-inherit { font-size: .8em; font-weight: normal; padding: 80px 0px 0px 0px; text-align: center; }
+#page1 .ui-listview .ui-btn .ui-li .ui-link-inherit { 
+	font-size: .8em; 
+	font-weight: normal; 
+	padding: 80px 0px 0px 0px; 
+	text-align: center; 
+}
 
 
 
