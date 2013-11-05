@@ -3,22 +3,67 @@ var Secret_Key = '79309e4464bf44e79ce6bb6a842bd9c6';
 
 var path = 'https://graph.renren.com/oauth/authorize?';
 var requestURL = 'http://api.renren.com/restserver.do?';
-var queryParams, query, url, accessToken, md5str, md5Value, uid, aid;
+var queryParams, r_query, url, accessToken, md5str, md5Value, uid, aid;
 var times = 0;
 document.getElementById("friends").style.display="none";
-if (window.location.hash.length !== 0)
+if (window.location.hash.length !== 0 
+	&& window.location.hash.length !== 5
+	&& window.location.hash.length !== 6)
 {
 	document.getElementById("renrenConnect").style.display="none";
 	document.getElementById("friends").style.display="";
-	// document.getElementById("album").style.display="";
-	var album = $('<a data-role="button" href="#page5" data-transition="slidedown" data-icon="arrow-r" data-inline="true" data-theme="a">好友照片</a>');
-	$("#buttons").append(album);
-
+	var album = $('<a data-role="button" href="#page5" data-transition="slidedown" data-icon="arrow-l" data-inline="true" data-theme="a">好友照片</a>');
+	album.insertBefore('#ok');
 	var access = window.location.hash.substring(1);
 	var start = access.indexOf('=')+1;
 	var end = access.indexOf('&');
 
 	accessToken = decodeURI(access.substring(start,end));
+
+	queryParams = 
+	[ 
+		'access_token='+accessToken,
+		'format=JSON',
+		'method=users.getInfo',
+		'v=1.0' 
+	];
+	r_query = queryParams.join('&');
+
+	md5str = queryParams.join('') + Secret_Key;
+  
+	md5Value = $.md5(md5str)
+
+	r_query = r_query+'&sig='+md5Value;
+
+	$.ajax
+	({
+		type: "Post",
+		url: "php/renren.php",
+		data: {data: r_query},
+		dataType: "json",
+		success: function(jsonData)
+		{
+			renrenId = jsonData[0].uid;
+			query = new Parse.Query(settingRecord);
+			query.equalTo('renrenId',renrenId);
+			query.find().then(function(settingInfo){
+				if(settingInfo.length >0){
+					if(settingInfo[0].get('roam')){
+						musicOn = settingInfo[0].get('music');
+						soundOn	= settingInfo[0].get('sound');
+						popAnim	= settingInfo[0].get('popAnim');
+						mylocation = settingInfo[0].get('mylocation');
+						smartRec = settingInfo[0].get('smartRec');
+						playmode = settingInfo[0].get('rotation');
+						roam = true;
+					}
+				}
+			});
+		}
+	});
+
+
+
 	queryParams = 
 	[ 
 		'access_token='+accessToken,
@@ -26,19 +71,19 @@ if (window.location.hash.length !== 0)
 		'method=friends.getFriends',
 		'v=1.0' 
 	];
-	query = queryParams.join('&');
+	r_query = queryParams.join('&');
 
 	md5str = queryParams.join('') + Secret_Key;
   
 	md5Value = $.md5(md5str)
 
-	query = query+'&sig='+md5Value;
+	r_query = r_query+'&sig='+md5Value;
 
 	$.ajax
 	({
 		type: "Post",
 		url: "php/renren.php",
-		data: {data: query},
+		data: {data: r_query},
 		dataType: "json",
 		success: function(jsonData)
 		{
@@ -47,7 +92,7 @@ if (window.location.hash.length !== 0)
 			var len = jsonData.length;
 		    if(win_height < win_width){
 		        $('#headlistHeader').css('height','6%');
-		        $('#headContent').css('height','94%');
+		        $('#headContent').css('height','93%');
 		    }
 		    else if(!isMobile.any()){
 		        $('#headlistHeader').css('height','3%');
@@ -60,11 +105,8 @@ if (window.location.hash.length !== 0)
 		    }
 			friends_loaded = function() {
 				pullUpEl = document.getElementById('pullUp');	
-				pullUpOffset = pullUpEl.offsetHeight;
-				var topOffset = $("#headlistHeader").height() - 60;
 				myScroll = new iScroll('headContent', {
 					useTransition: true,
-					topOffset: topOffset,
 					onRefresh: function () {
 						if (pullUpEl.className.match('loading')) {
 							pullUpEl.className = '';
@@ -163,18 +205,24 @@ if (window.location.hash.length !== 0)
 				$( "#headlist" ).listview( "refresh" );
 				
 				$("#friends").unbind('click').click(function(){
+					cl4.show();
 					if(isMobile.any())
-						setTimeout(friends_loaded,2000);
+						setTimeout(function(){
+							friends_loaded();
+							cl4.hide();
+						},2000);
 					else
 						setTimeout(function(){
 							$("#headScroller").css('display','');
 							friends_loaded();
-							
+							cl4.hide();
 						},3000);
 				});
 				$("#backToFreinds").unbind('click').click(function(){
+					cl4.show();
 					setTimeout(function(){
 							friends_loaded();
+							cl4.hide();
 					},1000);
 				});
 				$("#friendsBackToHome").unbind('click').click(function(){
@@ -197,8 +245,8 @@ $('#renrenConnect').click(function() {
 			'display=touch',
 			'scope=read_user_album+read_user_photo'
 		];
-		query = queryParams.join('&');
-		url = path + query;
+		r_query = queryParams.join('&');
+		url = path + r_query;
 		//window.open(url);
 		window.location = url;
 	}  
@@ -228,19 +276,19 @@ $( "#headlist" ).unbind('click').click(function(data){
 			'uid='+uid,
 			'v=1.0'
 		];
-		query = queryParams.join('&');
+		r_query = queryParams.join('&');
 
 		md5str = queryParams.join('') + Secret_Key;
 	  
 		md5Value = $.md5(md5str)
 
-		query = query+'&sig='+md5Value;
+		r_query = r_query+'&sig='+md5Value;
 
 		$.ajax
 		({
 			type: "Post",
 			url: "php/renren.php",
-			data: {data: query},
+			data: {data: r_query},
 			dataType:"JSON",
 			success: function (jsonData){
 				$('#albumslist').empty();
@@ -263,12 +311,40 @@ $( "#headlist" ).unbind('click').click(function(data){
 				}
 				$("#page4").page();
 				$( "#albumslist" ).listview( "refresh" );
+				if(!isMobile.any()){
+					$('#albumsContent').height(win_height - 65);
+					$('#albumsContent').css({'position':'absolute'
+						,'top':'45px'
+						,'width':'99%'});
+					$( "#albumslist" ).css({'margin-top':'0px',
+						'margin-bottom':'0px'});
+					if(myScroll)
+						myScroll.destroy();
+					setTimeout(function(){
+						myScroll = new iScroll('albumsContent', {
+					        momentum: false,
+					        useTransform: true
+					    });
+				    },500);
+				}
 			}
 		});
 	}
 });
 
+$( "#backToAlbums" ).unbind('click').click(function(){
+	if(myScroll)
+		myScroll.destroy();
+	setTimeout(function(){
+		myScroll = new iScroll('albumsContent', {
+	        momentum: false,
+	        useTransform: true
+	    });
+	},200);
+});
 $( "#albumslist" ).unbind('click').click(function(data){
+	if(myScroll)
+		myScroll.destroy();
 	var $target = $(data.target);
 	if( $target.is("A") )
 	{
@@ -292,18 +368,18 @@ $( "#albumslist" ).unbind('click').click(function(data){
 		'uid='+uid,
 		'v=1.0'
     ];
-	query = queryParams.join('&');
+	r_query = queryParams.join('&');
 
 	md5str = queryParams.join('') + Secret_Key;
     
 	md5Value = $.md5(md5str)
 
-	query = query+'&sig='+md5Value;
+	r_query = r_query+'&sig='+md5Value;
 
 	$.ajax({
 		type: "Post",
 		url: "php/renren.php",
-		data: {data: query},
+		data: {data: r_query},
 		dataType:"JSON",
 		success: function (jsonData){
 			$('.photolist').empty();
@@ -314,20 +390,35 @@ $( "#albumslist" ).unbind('click').click(function(data){
 				var img = document.createElement('img');
 				img.src = jsonData[i].url_large;
 				img.alt = jsonData[i].url_large;
-				img.title = jsonData[i].caption;
 				// img.width = img.height = 200;
 				hr.append(img);
 				li.append(hr);
-				if( !isMobile.any() ) {
+				if( win_height < win_width ) {
 					$(".photolist li").css('width','14%');
 				}
 				$('.photolist').append(li);
 			}
+
 			var $container = $('#photolistContent');
 			$container.imagesLoaded(function(){
-				$container.masonry({
-					itemSelector: '.photolist li'
-				});
+				$('#photolistContent').css({
+					'position':'absolute',
+					'top':'45px',
+					'width':'99%'});
+				if(!isMobile.any()){
+					$('#photolistContent').height(win_height - 50);
+					
+					if(myScroll)
+						myScroll.destroy();
+					myScroll = new iScroll('photolistContent', {
+				        momentum: false,
+				        useTransform: false
+				    });
+				}
+				if(photoMsnry)
+					photoMsnry.destroy();
+				photoMsnry = new Masonry( document.querySelector('.photolist') );
+				
 			});
 		}
 	});
@@ -335,6 +426,10 @@ $( "#albumslist" ).unbind('click').click(function(data){
   
 $('.photolist').unbind('click').click(function(data, handler)
 {
+	if(myScroll)
+		myScroll.destroy();
+	if(photoMsnry)
+		photoMsnry.destroy();
 	if (data.target !== this){
 		$.mobile.changePage("#page2","slidedown", true, true);
 		$.ajax({

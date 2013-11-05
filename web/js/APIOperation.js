@@ -1,9 +1,4 @@
 ﻿
-    // var API_URL = "http://api.cn.faceplusplus.com/v2";//API地址
-    // var API_KEY = "d5e369fa35d0bd86d033afd171e2e08a";//API key
-    // var API_SECRET = "SBouWCQsrQTGITBDgCa0slvr_ak1a61K";//API secert
-
-
     //在face++脸集中搜索相似脸
     function searchFaces(faceset_name, currentFaceID) {
         return $.ajax({
@@ -17,6 +12,7 @@
 
         })
     }
+
     //上传图片到face++进行识别
     function uploadImgToAPI(file, fileName, name, lat, lon) {
         var formdata = new FormData();
@@ -32,6 +28,7 @@
             data: formdata
         });
     }
+
     //添加脸到face++人脸集
     function addToFaceSet(faceID, faceset_name) {
         //详细内容见”http://cn.faceplusplus.com/dev/api/faceset/facesetadd_face/“
@@ -52,6 +49,7 @@
             }
         });
     }
+
     //对face++人脸集进行模型训练（时间较长，异步函数）
     function train_FaceSet(faceset_name) {
         //详细内容见”http://cn.faceplusplus.com/dev/api/train/trainsearch/“
@@ -63,6 +61,7 @@
                 + "&faceset_name=" + faceset_name
         });
     }
+    
     //建立face++人脸集
     function createFaceSet(faceset_name) {
         //详细内容见”http://cn.faceplusplus.com/dev/api/faceset/facesetcreate/“

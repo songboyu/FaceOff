@@ -115,8 +115,6 @@
 body {	
 	margin:0;	
 	padding:0;
-	height:100%;	
-	overflow: hidden;
 	text-align:center;
 }
 .gallery, .facebookChoose{ list-style: none; padding: 0; margin: 0; }
@@ -340,4 +338,8 @@ body {
 
 #Dialog #DialogContainer img{
 	margin: auto;
+}
+
+.collGroup .ui-collapsible-content{
+	padding:10px 0 10px 0;
 }

@@ -250,19 +250,19 @@
         var introduction = $('<div></div>');
         var chImg = $("<img/>");
         chImg.attr('src',"images/charactor/"+NameList[value]+".png");
-        chImg.width(isMobile.any()? dialogWidth - 20:0);
+        chImg.width(!popAnim? dialogWidth - 20:0);
         introduction.html("<p>"+introductionList[value]+"</p>");
         charactorImage.append(chImg);
         content.append(charactorImage);
         content.append(introduction);
-        introduction.css('display',isMobile.any()?'':'none');
+        introduction.css('display',!popAnim?'':'none');
         //弹出人物介绍层并遮罩底层
         $.Dialog.Alert({ 
             Width: dialogWidth,   //弹出层宽度
             Height: dialogHeight, //弹出层高度
             Title: "人物介绍",    //弹出层标题
             Content:  content ,       //弹出层内容
-            Anim:!isMobile.any()  //设置是否有动画
+            Anim:popAnim  //设置是否有动画
         });
         if(!isMobile.any()){
             //设置滚动
@@ -270,24 +270,26 @@
             $('#DialogContainer').css('overflow-x','hidden');
 
             //设置弹框内容动画
-            var w_add = (dialogWidth - 20) / 30;
-            var h_add = (dialogHeight - 20) / 30;
-            var imgWidth = 0;
-            var w_stop = false;
-            var anim_id = setInterval(function(){
-                if(imgWidth < dialogWidth - 20 && imgWidth + w_add< dialogWidth - 20){
-                    imgWidth += w_add;
-                } else if(imgWidth < dialogWidth - 20 ){
-                    imgWidth = dialogWidth - 20;
-                } else {
-                    w_stop = true;
-                }
-                chImg.width(imgWidth);
-                if(w_stop){
-                    introduction.css('display','');
-                    clearInterval(anim_id);
-                }
-            },35);
+            if(popAnim){
+                var w_add = (dialogWidth - 20) / 30;
+                var h_add = (dialogHeight - 20) / 30;
+                var imgWidth = 0;
+                var w_stop = false;
+                var anim_id = setInterval(function(){
+                    if(imgWidth < dialogWidth - 20 && imgWidth + w_add< dialogWidth - 20){
+                        imgWidth += w_add;
+                    } else if(imgWidth < dialogWidth - 20 ){
+                        imgWidth = dialogWidth - 20;
+                    } else {
+                        w_stop = true;
+                    }
+                    chImg.width(imgWidth);
+                    if(w_stop){
+                        introduction.css('display','');
+                        clearInterval(anim_id);
+                    }
+                },35);
+            }
         }
     }
 })();

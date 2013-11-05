@@ -1,4 +1,4 @@
-// JavaScript Document
+//椭圆类
 function Oval()
 {
 	this.center_x  = 0;

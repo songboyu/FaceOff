@@ -1,14 +1,4 @@
-/*
- * photoswipe.css
- * Copyright (c) %%year%% by Code Computerlove (http://www.codecomputerlove.com)
- * Licensed under the MIT license
- *
- * Default styles for PhotoSwipe
- * Avoid any position or dimension based styles
- * where possible, unless specified already here.
- * The gallery automatically works out gallery item
- * positions etc.
- */
+
 
  
 body.ps-active, body.ps-building, div.ps-active, div.ps-building

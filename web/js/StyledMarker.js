@@ -1,26 +1,4 @@
-/**
- * @name StyledMarkerMaker
- * @version 0.5
- * @author Gabriel Schneider
- * @copyright (c) 2010 Gabriel Schneider
- * @fileoverview This gives you static functions for creating dynamically
- *     styled markers using Charts API outputs as well as an ability to
- *     extend with custom types.
- */
 
-/**
- * Licensed under the Apache License, Version 2.0 (the 'License');
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an 'AS IS' BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License. 
- */
 
 var StyledIconTypes = {};
 var StyledMarker, StyledIcon;
@@ -30,12 +8,10 @@ var StyledMarker, StyledIcon;
  * @param {Function} parentCtor Parent class.
  */
 function inherits(childCtor, parentCtor) {
-  /** @constructor */
   function tempCtor() {};
   tempCtor.prototype = parentCtor.prototype;
   childCtor.superClass_ = parentCtor.prototype;
   childCtor.prototype = new tempCtor();
-  /** @override */
   childCtor.prototype.constructor = childCtor;
 }
  
@@ -48,8 +24,7 @@ function inherits(childCtor, parentCtor) {
   
 
   /**
-  * This class is an extended version of google.maps.Marker. It allows
-  * styles to be applied that change it's appearance.
+  * 
   * @extends google.maps.Marker
   * @param {StyledMarkerOptions} StyledMarkerOptions The options for the Marker
   */
@@ -140,37 +115,6 @@ function inherits(childCtor, parentCtor) {
     }
   };
   StyledIcon.prototype = new gm_.MVCObject();
-  
-  /**
-  * StyledIconType
-  * This class holds functions for building the information needed to style markers.
-  * getURL:
-  * This function builds and returns a URL to use for the Marker icon property.
-  * @param {StyledIcon} icon The StyledIcon that holds style information
-  * @return {String}
-  * getShadowURL:
-  * This function builds and returns a URL to use for the Marker shadow property.
-  * @param {StyledIcon} icon The StyledIcon that holds style information
-  * @return {String{
-  * getAnchor:
-  * This function builds and returns a Point to indicate where the marker is placed.
-  * @param {StyledIcon} icon The StyledIcon that holds style information
-  * @param {Number} width The width of the icon image.
-  * @param {Number} height The height of the icon image.
-  * @return {google.maps.Point}
-  * getShadowAnchor:
-  * This function builds and returns a Point to indicate where the shadow is placed.
-  * @param {StyledIcon} icon The StyledIcon that holds style information
-  * @param {Number} width The width of the shadow image.
-  * @param {Number} height The height of the shadow image.
-  * @return {google.maps.Point}
-  * getShape:
-  * This function builds and returns a MarkerShape to indicate where the Marker is clickable.
-  * @param {StyledIcon} icon The StyledIcon that holds style information
-  * @param {Number} width The width of the icon image.
-  * @param {Number} height The height of the icon image.
-  * @return {google.maps.MarkerShape}
-  */
   
   StyledIconTypes.CLASS = {};
   

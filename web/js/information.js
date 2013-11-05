@@ -51,7 +51,7 @@ var introductionList = ['《V字仇杀队》讲述了一个关于战争、毁灭
 '《火影忍者》中反派boss级角色，晓组织的真正领袖。少年时与旗木卡卡西、野原琳同为波风水门弟子。神无毗桥之战重伤濒死，将左眼赠与卡卡西，被宇智波斑用柱间细胞再造一半肢体救活。因亲眼目睹琳的死，性情大变转而走向异途。后假扮宇智波斑，从玖辛奈体内抽出九喇嘛袭击木叶，导致水门、玖辛奈夫妇之死。同宇智波鼬一起剿灭宇智波一族，暗中操控四代水影矢仓多年。利用晓组织收集尾兽，以完成月之眼计划。', // '阿飞',
 '曹操（155年－220年正月庚子[1]），字孟德，一名吉利，小字阿瞒，沛国谯（今安徽亳州）人，汉族。东汉末年杰出的政治家、军事家、文学家、书法家[2-3]。三国中曹魏政权的缔造者，以汉天子的名义征讨四方，对内消灭二袁、吕布、刘表、韩遂等割据势力，对外降服南匈奴、乌桓、鲜卑等，统一了中国北方，并实行一系列政策恢复经济生产和社会秩序，奠定了曹魏立国的基础。曹操在世时，担任东汉丞相，后为魏王，去世后谥号为武王。其子曹丕称帝后，追尊为武皇帝，庙号太祖。', // '曹操',
 '曹洪（？－232年），字子廉，沛国谯（今安徽亳县）人，曹操从弟。曹操追袭董卓荥阳为徐荣所败失马，曹洪舍命献马并救护曹操，使曹操免于厄难。后多随军征伐，平兖州、征刘表、讨祝臂。官渡之战时曹操令其驻守本阵。后据张飞等于下辩，破斩吴兰、任夔，退张飞与马超。曹丕即位时封曹洪为骠骑将军，后因私事寻衅欲处死曹洪，因卞太后求情免死，贬为庶民，曹叡即位，拜曹洪为后将军，更封乐城侯，后复拜为骠骑将军。曹洪逝世，追谥曰恭侯。', // '曹洪',
-'卢国公程知节（589—665），字义贞，原名咬金，后更名知节。汉族，济州东阿斑鸠店人（今属山东省东平县）。唐朝开国名将，封卢国公，位列凌烟阁二十四功臣。唐太宗贞观年间，官拜左金吾大将军。历代小说演义等多有描写（小说中惯称“程咬金”），主要描写程咬金为了生活，被迫劫道，后与十八条好汉聚义瓦岗寨，反抗暴隋的故事。小说中，程咬金个性鲜明，以“三板斧”（实际使用武器为槊）的形象在民间广为流传。', // '蒋干',
+'蒋干，字子翼，汉末三国时期的人物，九江（治今安徽寿县）人。历史上的蒋干是当时的名士。他因自幼和周瑜同窗读书，便向曹操毛遂自荐，要过江到东吴去作说客，劝降周瑜，免得大动干戈，但他也因此得到了假情报中了周瑜的反间计令曹操斩了蔡瑁、张允两位水军指挥官以致曹操在赤壁之战中打败。', // '蒋干',
 '关羽（约162－220年[1]），字云长（原为长生），河东解良（今山西运城）人，汉末三国时期名将。刘备起兵时，关羽跟随刘备，忠心不二，深受刘备信任。刘备、诸葛亮等入蜀地，关羽镇守荆州，刘备夺取汉中后，关羽乘势北伐曹操，曾围襄阳、擒于禁、斩庞德、威震华夏，曹操几欲迁都避其锋，但东吴偷袭荆州，关羽兵败被害。关羽去世后，逐渐被神化，被民间尊为“关公”；历代朝廷多有褒封，清代奉为“忠义神武灵佑仁勇威显关圣大帝”，崇为“武圣”，与“文圣” 孔子齐名。《三国演义》尊其为蜀国“五虎上将”之首，毛宗岗称其为“《演义》三绝”之“义绝”。', // '关羽',
 '姜子牙， 姜姓，吕氏，名尚，一名望，字子牙，或单呼牙，也称吕尚。生于公元前1156，死于公元前1017年，寿至139岁，先后辅佐了六位周王，因是齐国始祖而称“太公望”，俗称姜太公。西周初年，被周文王封为“太师”（武官名），被尊为“师尚父”，辅佐文王，与谋“翦商”。后辅佐周武王灭商。因功封于齐，成为周代齐国的始祖。他是中国历史上杰出的政治家、军事家和谋略家。', // '姜尚',
 '孟良和焦赞是杨家将中两员都以勇猛著称的大将，常常一起出场，被称为焦不离孟，孟不离焦，孟良焦赞在历史上都有一点踪迹，但孟良没有明确记载，只知道他是杨延昭部将，墓地在河北永清。', // '孟良',
@@ -84,11 +84,15 @@ var introductionList = ['《V字仇杀队》讲述了一个关于战争、毁灭
 '钟无艳，又名钟离春、钟无盐，齐宣王之妻，中国古代四大丑女兼才女。传为战国时齐国无盐邑之女。貌极丑，四十岁不得出嫁，自请见齐宣王，陈述齐国危难四点，为宣王采纳，立为王后。于是拆渐台、罢女乐、退谄谀，进直言，选兵马，实府库，齐国大安。', // '钟离春',
 '专诸，生卒：（?-前515），亦称：鱄设诸，籍贯：春秋时吴国堂邑（今南京市六合区西北），吴公子光（即吴王阖闾）欲杀王僚自立，伍子胥把他推荐给公子光。公元前515年，公子光乘吴内部空虚，与专诸密谋，以宴请吴王僚为名，藏匕首于鱼腹之中进献，当场刺杀吴王僚，专诸也被吴王僚的侍卫杀死。公子光自立为王，是为吴王阖闾，乃以专诸之子为卿。专诸是中国古代“四大刺客”（一说五大刺客）之一。“士之怒也。夫专诸之刺王僚也，彗星袭月；聂政之刺韩傀也，白虹贯日；要离之刺庆忌也，苍鹰击于殿上。”鱼肠剑出于“专诸刺王僚”。' // '专诸'
 ];
+var facebookInfoIndex = [];
+for(var i = 0;i < NameList.length;i++){
+    facebookInfoIndex.push(i);
+}
 var facebookInfo = [
 {   //V字仇杀队
     eye_left: {x: 90,y: 195},
     eye_right: {x: 270,y: 195},
-    nose: {x: 181,y: 320},
+    nose: {x: 181,y: 305},
     mouth: {y: 350},
     length: 363,
     height: 489
@@ -413,6 +417,20 @@ var facebookInfo = [
     length: 300,
     height: 360
 }];
+var RecReason = ['没有更高的分数了。',
+    '虽然不是最高分但一定会是适合你的哦！',
+    '看看我的星星，我猜你会选我的。',
+    '开怀大笑的你该拥有一张喜庆的脸谱。',
+    '微笑是最美的，所以该配最美的脸谱。',
+    '姜太公钓鱼，愿者上钩。你愿意否？',
+    '嘿，我是如来佛祖玉皇大帝观音菩萨指定取西经特派使者花果山水帘洞美猴王齐天大圣孙悟空啊。',
+    '不用拍，雷公专打坏人不打小孩的。',
+    '生子当如孙仲谋啊！',
+    '专属白色人种的面具。',
+    '黑人也有适合的脸谱。',
+    '黄色，是黄种人与生俱来的骄傲。',
+    '皮相不是女生的全部，才女也能撑起半边天。',
+    '男人就该如曹阿瞒般霸气。'];
 // error messages
 var messages = {
     URL_ERROR: 'Invalid URL',
@@ -444,30 +462,42 @@ var isMobile = {
 };
 Parse.initialize("ig1NBdqNPrI9zmas8Sx3DatRThGuiHuWNxhowhdf", "wOITAeT2FWHjjKmO8KqzF4eFJqAi6cAO4PneUvSC");
 var faceRecord = Parse.Object.extend("face");
+var settingRecord = Parse.Object.extend("setting");
 var query = new Parse.Query(faceRecord);
 
 var container = document.querySelector('.gallery');
-var msnry = new Masonry(container);
+var msnry;
+var photoMsnry;
 var myScroll;
 var scrollMoved = false;
 var win_width = $(window).width();
 var win_height = $(window).height();
 
 //配置信息
-var SERVER_URL = "http://soongboyu.eicp.net";
+var SERVER_URL = "http://xiangt920.eicp.net:8888";
 var mediaLoaded = false;
+var smartRec = true;
 var musicOn = true;
+var soundOn = true;
+var roam = false;
+var mylocation = true;
+var popAnim = isMobile.any()?false:true;
 var RANDOM = 0;
 var ORDER = 1;
-var playmode = RANDOM;
+var playmode = ORDER;
 var choosedFacebookInfo;
 var choosedFBCount = 0;
-
+var faceInfo;
+var compeleted = false; //是否完成 
+var started = false;   //是否开始
 var choosedFacebook = [];
+var RecedIndex ;
+
+//人人用户信息
+var renrenId;
 
 //读取脸谱图片
 var imgs = [];
-
 var myfilename;
 
 ///////////////////////////////////////////////////////////////////////
@@ -503,7 +533,11 @@ cl3.setDiameter(62); // default is 40
 cl3.setDensity(24); // default is 40
 cl3.setRange(1); // default is 1.3
 cl3.setFPS(14); // default is 24
-// var loaderObj = document.getElementById("canvasLoader");
-// loaderObj.style.position = "absolute";
-// loaderObj.style["top"] = cl.getDiameter() * -0.5 + "px";
-// loaderObj.style["left"] = cl.getDiameter() * -0.5 + "px";
+/////////////////////////////////////////////////////////////////////
+var cl4 = new CanvasLoader('canvasloader-container4');
+cl4.setColor('#0e4d38'); // default is '#000000'
+cl4.setShape('rect'); // default is 'oval'
+cl4.setDiameter(62); // default is 40
+cl4.setDensity(24); // default is 40
+cl4.setRange(1); // default is 1.3
+cl4.setFPS(14); // default is 24

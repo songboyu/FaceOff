@@ -1,4 +1,5 @@
-// JavaScript Document
+
+//face类，用于存储人脸信息及脸型绘制
 function Face(Width,Height,age0,center_x,center_y,eye_left_x,eye_left_y,eye_right_x,eye_right_y,mouth_left_x,mouth_left_y,mouth_right_x,mouth_right_y,nose_x,nose_y,sex0,race0)
 {
 	this.faceWidth  	= Width;
@@ -93,8 +94,6 @@ function Face(Width,Height,age0,center_x,center_y,eye_left_x,eye_left_y,eye_righ
 				}
 			},30);
 
-
-			
 		}
 
 	 }

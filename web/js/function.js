@@ -14,20 +14,20 @@ $(document).ready(function() {
                 len = filenames.length; i < len; i++) {
                 	new Image().src = 'images/withFace/' + filenames[i];
                 }
+                for (var i = 0; i < NameList.length; i++) {
+                    var img = new Image();
+                    img.src = 'images/facebook/' + NameList[i] + '.png';
+                    imgs.push(img);
+                    new Image().src = 'images/charactor/' + NameList[i] + '.png';
+                }
+                
+                //加载勾选复选框背景图
+                new Image().src = "style/images/checkbox_on.png";
+
             }
         });
-        for (var i = 0; i < NameList.length; i++) {
-            var img = new Image();
-            img.src = 'images/facebook/' + NameList[i] + '.png';
-            imgs.push(img);
-            new Image().src = 'images/charactor/' + NameList[i] + '.png';
-        }
-        //加载脸谱
-        loadFacebook();
         
-
-        //加载勾选复选框背景图
-        new Image().src = "style/images/checkbox_on.png";
+        
         
     },
     1000);
@@ -43,15 +43,14 @@ if (window.DeviceMotionEvent) {
 }
 //调整布局
 if(win_height > win_width){
+    $('#head').append($('<link href="style/overrides-mobile.css" rel="stylesheet" type="text/css"/>'));
+    
     $("#bgImg").attr('src',"images/main/bg_mobile.jpg");
-    if(!isMobile.any()){
-    	$('#mainContent').css('margin-top','100%');
-    } else{
-    	$("#page1").height(win_height);
-    	$("#background").width(win_width);
-    	$("#background").height(win_height);
-    	$('#mainContent').css('margin-top',win_height * 0.54 +'px');
-    }
+    $('#bgImg').width(win_width);
+    $('#bgImg').height(win_height);
+    
+} else {
+    $('#head').append($('<link href="style/overrides.css" rel="stylesheet" type="text/css"/>'));
 }
 
 
@@ -84,9 +83,8 @@ function deviceMotionHandler(eventData) {
             else times = 0;
 
             if (times == 1) {
-                if (window.location.hash == "#page2" && completed == false) {
+                if (window.location.hash == "#page2" && completed == false && started) {
                     document.getElementById("changeFace").click();
-                    //alert('shake');
                 }
             }
         }
@@ -118,7 +116,7 @@ var showImg = document.getElementById("img");
 var ctx = canvas.getContext('2d');
 var image = new Image;
 var handler;
-var random;
+var random = -1;
 var firstChoose = true;
 var index;
 var score;
@@ -143,12 +141,6 @@ function getMyaddress(address) {
     }
 }
 
-// document.addEventListener('touchmove',
-// 	function(e) {
-//     	e.preventDefault();
-// 	},
-// false);
-
 //////////////////////////////////////////////////////////////////////
 var reader = new FileReader(); //文件读取
 var currentImg = new Image(); //当前图片
@@ -156,7 +148,6 @@ var cover = new Image();
 cover.src = 'images/cover.png';
 var scale; //缩放比例
 var url; //图片URL  
-var completed = false //是否完成 
 if (isMobile.any()) {
     video.width = document.body.clientWidth * 0.94;
     document.getElementById('main').width = document.body.clientWidth;
@@ -249,9 +240,10 @@ function showStatus(text) {
 function drawFaces(faces) {
     if (faces.length === 0) showStatus(messages.NO_FACE);
     else {
+        firstChoose = true;
+        completed = false;
+        
         document.getElementById('confirm').style.display = "none";
-        document.getElementById('toChooseFacebook').style.display = "";
-        document.getElementById('similarFace').style.display = "";
         for (var i = faces.length - 1; i >= 0; i--) {
             var face = faces[i];
             currentFaceID = face.face_id;
@@ -273,11 +265,32 @@ function drawFaces(faces) {
             ctx.fillText('性别: ' + face.attribute.gender.value, 10, currentImg.height / scale + 57);
             ctx.fillText('肤色: ' + face.attribute.race.value, 10, currentImg.height / scale + 87);
 
-            ctx.fillText('(±' + face.attribute.age.range.toFixed(2) + ')', currentImg.width / scale - 100, currentImg.height / scale + 27);
-            ctx.fillText('(' + face.attribute.gender.confidence.toFixed(2) + '%)', currentImg.width / scale - 100, currentImg.height / scale + 57);
-            ctx.fillText('(' + face.attribute.race.confidence.toFixed(2) + '%)', currentImg.width / scale - 100, currentImg.height / scale + 87);
+            ctx.fillText('(±' + face.attribute.age.range.toFixed(2) + ')', 
+                currentImg.width / scale - 100, 
+                currentImg.height / scale + 27);
+            ctx.fillText('(' + face.attribute.gender.confidence.toFixed(2) + '%)', 
+                currentImg.width / scale - 100, 
+                currentImg.height / scale + 57);
+            ctx.fillText('(' + face.attribute.race.confidence.toFixed(2) + '%)', 
+                currentImg.width / scale - 100, 
+                currentImg.height / scale + 87);
 
-            var faceInfo = new Face(face.position.width * currentImg.width / scale * 0.01, face.position.height * currentImg.height / scale * 0.01, face.attribute.age.value, face.position.center.x * currentImg.width / scale * 0.01, face.position.center.y * currentImg.height / scale * 0.01, face.position.eye_left.x * currentImg.width / scale * 0.01, face.position.eye_left.y * currentImg.height / scale * 0.01, face.position.eye_right.x * currentImg.width / scale * 0.01, face.position.eye_right.y * currentImg.height / scale * 0.01, face.position.mouth_left.x * currentImg.width / scale * 0.01, face.position.mouth_left.y * currentImg.height / scale * 0.01, face.position.mouth_right.x * currentImg.width / scale * 0.01, face.position.mouth_right.y * currentImg.height / scale * 0.01, face.position.nose.x * currentImg.width / scale * 0.01, face.position.nose.y * currentImg.height / scale * 0.01, face.attribute.gender.value, face.attribute.race.value);
+            faceInfo = new Face(face.position.width * currentImg.width / scale * 0.01, 
+                face.position.height * currentImg.height / scale * 0.01, 
+                face.attribute.age.value, 
+                face.position.center.x * currentImg.width / scale * 0.01, 
+                face.position.center.y * currentImg.height / scale * 0.01, 
+                face.position.eye_left.x * currentImg.width / scale * 0.01, 
+                face.position.eye_left.y * currentImg.height / scale * 0.01, 
+                face.position.eye_right.x * currentImg.width / scale * 0.01, 
+                face.position.eye_right.y * currentImg.height / scale * 0.01, 
+                face.position.mouth_left.x * currentImg.width / scale * 0.01, 
+                face.position.mouth_left.y * currentImg.height / scale * 0.01, 
+                face.position.mouth_right.x * currentImg.width / scale * 0.01, 
+                face.position.mouth_right.y * currentImg.height / scale * 0.01, 
+                face.position.nose.x * currentImg.width / scale * 0.01, 
+                face.position.nose.y * currentImg.height / scale * 0.01, 
+                face.attribute.gender.value, face.attribute.race.value);
 
             //画出脸部轮廓及五官位置
             ctx.restore();
@@ -291,73 +304,209 @@ function drawFaces(faces) {
                 rgbColor = '#C537D8';
             }
             ctx.fillStyle = rgbColor;
+            ctx.strokeStyle = rgbColor;
             for (var j = pointType.length - 1; j >= 0; j--) {
                 ctx.beginPath();
-                ctx.arc(face.position[pointType[j]].x * currentImg.width / scale * 0.01, face.position[pointType[j]].y * currentImg.height / scale * 0.01, face.position.width * 0.01 * 10, 0, Math.PI * 2);
+                ctx.arc(face.position[pointType[j]].x * currentImg.width / scale * 0.01, 
+                    face.position[pointType[j]].y * currentImg.height / scale * 0.01, 
+                    face.position.width * 0.01 * 10, 0, Math.PI * 2);
                 ctx.fill();
             }
             faceInfo.drawFace(ctx);
 
-            //进入选脸谱界面
-            $('#toChooseFacebook').unbind('click').click(function() {
-            	if(firstChoose){
-                	setTimeout(loaded, 2000);
-            	} else {
-            		loaded();
-            	}
-            });
+            //头部旋转和佩戴眼镜提示
+            
+            var tooltip;
+            var bt_1;
+            if($('div.tooltip')){
+                $('div.tooltip').remove();
+            }
+            if(face.attribute.glass.value == 'Normal'){
+                bt_1 = showTootip('佩戴着眼镜戴脸谱可能会不太美观哦!你可以返回主页或者',
+                    'ignore','忽略',
+                    $('#canvas').offset().left + faceInfo.mouth_right[0],
+                    $('#canvas').offset().top + faceInfo.mouth_right[1],' r');
+                bt_1.unbind('click').click(function(){
+                    var bt_2;
+                    $('div.tooltip').remove();
+                    if(Math.abs(face.attribute.pose.yaw_angle.value) > 8){
 
-            //更换脸谱
+                        bt_2 = showTootip('头部扭转角度过大可能会影响脸谱对准哦！你可以返回主页或者',
+                            'ignore','忽略',
+                            $('#canvas').offset().left + faceInfo.mouth_left[0]-20,
+                            $('#canvas').offset().top + faceInfo.mouth_left[1],
+                            ' l');
+                        bt_2.unbind('click').click(function(){
+                            $('div.tooltip').remove();
+                            var bt_3;
+                            if(Math.abs(
+                                face.attribute.pose.pitch_angle.value) > 0.05){
+                                bt_3 = showTootip('头部抬起或低下角度过大可能会影响得分哦！你可以返回主页或者',
+                                    'ignore','忽略',
+                                    $('#canvas').offset().left + faceInfo.mouth_right[0],
+                                    $('#canvas').offset().top + faceInfo.mouth_right[1],
+                                    ' r');
+                                bt_3.unbind('click').click(function(){
+                                    $('div.tooltip').remove();
+                                    goNext('好吧，祝你好运！',
+                                        $('#canvas').offset().left + faceInfo.mouth_left[0],
+                                        $('#canvas').offset().top + faceInfo.mouth_left[1],
+                                        ' lr',face);
+                                });
+                            } else{
+                                goNext('好吧，祝你好运！',
+                                    $('#canvas').offset().left + faceInfo.mouth_left[0],
+                                    $('#canvas').offset().top + faceInfo.mouth_left[1],
+                                    ' lr',face);
+                            }
+                        });
+
+                    } else if(Math.abs(face.attribute.pose.pitch_angle.value) > 0.05){
+                        bt_2 = showTootip('头部抬起或低下角度过大可能会影响得分哦！你可以返回主页或者',
+                            'ignore','忽略',
+                            $('#canvas').offset().left + faceInfo.mouth_right[0],
+                            $('#canvas').offset().top + faceInfo.mouth_right[1],
+                            ' r');
+                        bt_2.unbind('click').click(function(){
+                            $('div.tooltip').remove();
+                            goNext('好吧，祝你好运！',
+                                $('#canvas').offset().left + faceInfo.mouth_left[0],
+                                $('#canvas').offset().top + faceInfo.mouth_left[1],
+                                ' lr',face);
+                        });
+                    } else{
+                        goNext('好吧，祝你好运！',
+                            $('#canvas').offset().left + faceInfo.mouth_left[0],
+                            $('#canvas').offset().top + faceInfo.mouth_left[1],
+                            ' lr',face);
+                    }
+                });
+                
+
+            } else if(Math.abs(face.attribute.pose.yaw_angle.value) > 8){
+                bt_1 = showTootip('头部扭转角度过大可能会影响脸谱对准哦！你可以返回主页或者',
+                    'ignore','忽略',
+                    $('#canvas').offset().left + faceInfo.mouth_left[0]-20,
+                    $('#canvas').offset().top + faceInfo.mouth_left[1],
+                    ' l');
+                bt_1.unbind('click').click(function(){
+                    $('div.tooltip').remove();
+                    var bt_3;
+                    if(Math.abs(
+                        face.attribute.pose.pitch_angle.value) > 0.05){
+                        bt_3 = showTootip('头部抬起或低下角度过大可能会影响得分哦！你可以返回主页或者',
+                            'ignore','忽略',
+                            $('#canvas').offset().left + faceInfo.mouth_right[0],
+                            $('#canvas').offset().top + faceInfo.mouth_right[1],
+                            ' r');
+                        bt_3.unbind('click').click(function(){
+                            $('div.tooltip').remove();
+                            goNext('好吧，祝你好运！',
+                                $('#canvas').offset().left + faceInfo.mouth_left[0],
+                                $('#canvas').offset().top + faceInfo.mouth_left[1],
+                                ' lr',face);
+                        });
+                    } else{
+                        goNext('好吧，祝你好运！',
+                            $('#canvas').offset().left + faceInfo.mouth_left[0],
+                            $('#canvas').offset().top + faceInfo.mouth_left[1],
+                            ' lr',face);
+                    }
+                });
+
+            } else if(Math.abs(face.attribute.pose.pitch_angle.value) > 0.05){
+                bt_1 = showTootip('头部抬起或低下角度过大可能会影响得分哦！你可以返回主页或者',
+                    'ignore','忽略',
+                    $('#canvas').offset().left + faceInfo.mouth_right[0],
+                    $('#canvas').offset().top + faceInfo.mouth_right[1],
+                    ' r');
+                bt_1.unbind('click').click(function(){
+                    $('div.tooltip').remove();
+                    goNext('好吧，祝你好运！',
+                        $('#canvas').offset().left + faceInfo.mouth_left[0],
+                        $('#canvas').offset().top + faceInfo.mouth_left[1],
+                        ' lr',face);
+                });
+
+            } else{
+                goNext('good！',
+                    $('#canvas').offset().left + faceInfo.mouth_right[0],
+                    $('#canvas').offset().top + faceInfo.mouth_left[1],
+                    ' lr',face);
+            }
+
+            //更换脸谱事件
             $('#changeFace').unbind('click').click(function() {
                 changeFacebook();
 
             });
+
+            //更换脸谱函数
             changeFacebook = function() {
-                newface.play();
+                if(soundOn)
+                    newface.play();
 
                 ctx.restore();
                 ctx.save();
 
                 ctx.drawImage(cover, 0, //x
-                0, //y
-                currentImg.width / scale, //宽度
-                currentImg.height / scale //高度
+                    0, //y
+                    currentImg.width / scale, //宽度
+                    currentImg.height / scale //高度
                 );
                 // alert(currentImg.width / scale+"    "+(155/286)*(currentImg.width / scale));
                 Pause(this, 400);
 
+                //在canvas上画出下一张脸谱
                 this.NextStep = function() {
 
                     ctx.drawImage(currentImg, 0, 0, currentImg.width / scale, currentImg.height / scale);
 
-                    ctx.globalAlpha = 0.5;
-                    if (playmode == RANDOM) {
-                        random = Math.floor(Math.random() * choosedFBCount);
-                    } else {
-                        random++;
-                        if (random == choosedFBCount) random = 0;
-                        
-                    }
+                    
+                    random = next_index(random);
                     index = choosedFacebook[random];
+                    if(index == 0 || index == 6){
+                        ctx.globalAlpha = 1;
+                    } else {
+                        ctx.globalAlpha = 0.5;
+                    }
                     choosedFacebookInfo = facebookInfo[index];
                     //设置脸谱位置
 
-                    var len_scale = ((faceInfo.eye_right[0] - faceInfo.eye_left[0]) / Math.abs(Math.cos(faceInfo.angle))) / (choosedFacebookInfo.eye_right.x - choosedFacebookInfo.eye_left.x);
-                    var height_scale = ((faceInfo.nose[1] - (faceInfo.eye_left[1] + faceInfo.eye_right[1]) / 2) / Math.abs(Math.cos(faceInfo.angle))) / (choosedFacebookInfo.nose.y - choosedFacebookInfo.eye_left.y);
+                    var len_scale = 
+                        (
+                            (
+                            faceInfo.eye_right[0] - faceInfo.eye_left[0]
+                            ) / 
+                                Math.abs(Math.cos(faceInfo.angle))
+                        ) / (
+                            choosedFacebookInfo.eye_right.x - 
+                            choosedFacebookInfo.eye_left.x
+                        );
+                    var height_scale = 
+                        (
+                            (
+                                faceInfo.nose[1] - 
+                                (faceInfo.eye_left[1] + faceInfo.eye_right[1]) / 2
+                            ) / 
+                            Math.abs(Math.cos(faceInfo.angle))
+                        ) / (
+                            choosedFacebookInfo.nose.y - 
+                            choosedFacebookInfo.eye_left.y
+                        );
 
                     ctx.save();
                     var center_x = (faceInfo.eye_left[0] + faceInfo.eye_right[0]) / 2;
                     var center_y = (faceInfo.eye_left[1] + faceInfo.eye_right[1]) / 2;
                     ctx.translate(center_x, center_y);
                     ctx.rotate(faceInfo.angle);
-
-                    ctx.drawImage(imgs[index], 0 - choosedFacebookInfo.nose.x * len_scale, 0 - choosedFacebookInfo.eye_left.y * height_scale, choosedFacebookInfo.length * len_scale, choosedFacebookInfo.height * height_scale);
+                    ctx.drawImage(imgs[index], 
+                        0 - choosedFacebookInfo.nose.x * len_scale, 
+                        0 - choosedFacebookInfo.eye_left.y * height_scale, 
+                        choosedFacebookInfo.length * len_scale, 
+                        choosedFacebookInfo.height * height_scale);
 
                     ctx.restore();
-                    var deform_score = reciprocal(height_scale / len_scale);
-                    deform_score = (1 - deform_score) * 50;
-                    var match_score = (2 - reciprocal(faceInfo.faceWidth / (choosedFacebookInfo.length * len_scale)) - reciprocal(faceInfo.faceHeight / (choosedFacebookInfo.height * height_scale))) * 10;
-                    var mouth_score = Math.abs((choosedFacebookInfo.mouth.y - choosedFacebookInfo.nose.y) * height_scale - (faceInfo.mouth_left[1] - faceInfo.nose[1]) / Math.cos(faceInfo.angle));
 
                     ctx.globalAlpha = 1;
                     // ctx.rotate(0-angle);
@@ -401,7 +550,7 @@ function drawFaces(faces) {
                     98, 35, true, false, false);
                     //设置显示分数
                     ctx.fillStyle = "#FFFFFF";
-                    score = my_round(100 - deform_score - match_score - mouth_score);
+                    score = calculateScore(choosedFacebookInfo);
                     ctx.fillText(score + "分", currentImg.width / scale - 97, currentImg.height / scale - 8);
                 }
 
@@ -426,8 +575,6 @@ function drawImg(src) {
         document.getElementById('confirm').style.display = "";
         document.getElementById('snap').style.display = "none";
         document.getElementById('changeFace').style.display = "none";
-        document.getElementById('music').style.display = "none";
-        document.getElementById('similarFace').style.display = "none";
         document.getElementById('ok').style.display = "none";
         document.getElementById('share').style.display = "none";
         document.getElementById('charactor').style.display = "none";
@@ -462,8 +609,6 @@ function uploadFile() {
     document.getElementById("canvas").style.display = "none";
     document.getElementById('confirm').style.display = "none";
     document.getElementById('changeFace').style.display = "none";
-    document.getElementById('music').style.display = "none";
-    document.getElementById('similarFace').style.display = "none";
     document.getElementById('ok').style.display = "none";
     document.getElementById('share').style.display = "none";
     document.getElementById('charactor').style.display = "none";
@@ -485,7 +630,7 @@ function uploadFile() {
             cl.show(); // Hidden by default
         },
         success: function(filename) {
-            url = SERVER_URL+ '/'+ filename;
+            url = SERVER_URL + '/' + filename;
             drawImg(url);
             myfilename = filename;
         }

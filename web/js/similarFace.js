@@ -14,7 +14,7 @@
     };
     map = new google.maps.Map(document.getElementById("map"), myOptions);
     
-    $('#similarFace').click(function(){
+    similarClick = function(){
         var img = new Image();
         if( isMobile.any() ) {
             mycanvas.width   = document.body.clientWidth/2 - 27;
@@ -51,6 +51,12 @@
         similarpic.height = mycanvas.height;
         
         document.getElementById("radio1").click();
+    }
+    
+    $('#similarBackToPage2').unbind('click').click(function() {
+        if($('div.tooltip')){
+            $('div.tooltip').show();
+        }
     });
     //"用户相似脸"按钮事件
     $('#radio1').unbind('click').click(function() {
@@ -90,45 +96,52 @@
         else {
             // handle completed.
             //if (document.getElementById("allowPosition").checked == true) {
-
-            if (navigator.geolocation)
-            {
-                navigator.geolocation.getCurrentPosition(function (position){
-                    var lat = position.coords.latitude;//经度
-                    var lon = position.coords.longitude;//纬度
-                    $.ajax({  
-                        url: API_URL + 'detection/detect?api_key=' + API_KEY + 
-                                                       '&api_secret=' + API_SECRET + 
-                                                       '&url=' + url +
-                                                       '&tag=' + myfilename + "|" + faceName + "|" + lat + "|" + lon,  
-                        cache: false,  
-                        contentType: false,  
-                        processData: false,  
-                        dataType:"json",  
-                        type: 'POST',  
-                        beforeSend: function (XHR) 
-                        {   
-                            cl1.show(); // Hidden by default
-                        },
-                        success: function (faces) 
-                        {  
-                            // var json = JSON.parse(result.responseText);
-                            //添加到face++人脸集
-                            addToFaceSet(faces.face[0].face_id, "studentFaces");
-                        }  
-                  
-                    });  
-                    
-                },
-                function(error)
+            if(mylocation){
+                if (navigator.geolocation)
                 {
-                    console.log("Got an error, code: " + error.code + " message: "+ error.message);
-                },
-                {maximumAge: 10000}); // 这里设置超时为10000毫秒，即10秒
+                    navigator.geolocation.getCurrentPosition(function (position){
+                        var lat = position.coords.latitude;//经度
+                        var lon = position.coords.longitude;//纬度
+                        similarFaceUpload(faceName,lat,lon);
+                    },
+                    function(error)
+                    {
+                        console.log("Got an error, code: " + error.code + " message: "+ error.message);
+                    },
+                    {maximumAge: 10000}); // 这里设置超时为10000毫秒，即10秒
+                }
+            } else{
+                similarFaceUpload(faceName,-1,-1);
             }
-
         }
     });       
+
+    //上传至脸库
+    function similarFaceUpload(faceName,lat,lon){
+        $.ajax({  
+            url: API_URL + 'detection/detect?api_key=' + API_KEY + 
+                                           '&api_secret=' + API_SECRET + 
+                                           '&url=' + url +
+                                           '&tag=' + myfilename + "|" + faceName + "|" + lat + "|" + lon,  
+            cache: false,  
+            contentType: false,  
+            processData: false,  
+            dataType:"json",  
+            type: 'POST',  
+            beforeSend: function (XHR) 
+            {   
+                cl1.show(); // Hidden by default
+            },
+            success: function (faces) 
+            {  
+                // var json = JSON.parse(result.responseText);
+                //添加到face++人脸集
+                addToFaceSet(faces.face[0].face_id, "studentFaces");
+            }  
+      
+        }); 
+    }
+
     //设置相似脸
     function faceContainerSet(id, url, name, score) {
         document.getElementById(id).src = url;
@@ -178,7 +191,10 @@
             var note;
             //If message is to zoom, change the location and zoom level
             if (messageObject.command == "zoomTo") {
-                if (messageObject.latitude == null || messageObject.longitude == null) {
+                if (messageObject.latitude == null || 
+                    messageObject.longitude == null ||
+                    messageObject.latitude == '-1' ||
+                    messageObject.longitude == '-1') {
                     newCenter = new google.maps.LatLng(31.813192, 103.996395);
                     messageObject.zoom = 3;
                     note = "无位置共享";

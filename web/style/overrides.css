@@ -1,16 +1,18 @@
-/*  CSS Document - jQuery Mobile Overrides                */
-/*  Written by Chris Converse - http://codifydesign.com   */
-
-/* Swatch A Overrides */
 .ui-page.ui-body-a.ui-page-active .ui-header.ui-bar-a { display: none; }
 
 #page1 .ui-content { padding-top: 125px; padding-bottom: 15px; margin: 0px 15px 10px 15px; }
+
+#page1 {
+	background-color: transparent;
+}
+#mainContent{
+	background-color: transparent;
+}
 
 #page1 .ui-listview { text-align: center; }
 #page1 .ui-listview .ui-btn {
 	width: 75px;
 	display: inline-block;
-	
 	border: none;
 	margin: 0px 20px 20px 20px;
 }
@@ -33,11 +35,6 @@
 #page1 .ui-listview .ui-btn .ui-li .ui-icon { display: none; }
 #page1 .ui-listview .ui-btn .ui-li .ui-link-inherit { font-size: .8em; font-weight: normal; padding: 80px 0px 0px 0px; text-align: center; }
 
-#page1 .ui-listview .ui-btn.btn_a { background: url(../images/main/75/1.png) no-repeat 0px 0px; }
-#page1 .ui-listview .ui-btn.btn_b { background: url(../images/main/75/2.png) no-repeat 0px 0px; }
-#page1 .ui-listview .ui-btn.btn_c { background: url(../images/main/75/3.png) no-repeat 0px 0px; }
-#page1 .ui-listview .ui-btn.btn_d { background: url(../images/main/75/4.png) no-repeat 0px 0px; }
-#page1 .ui-listview .ui-btn.btn_e { background: url(../images/main/75/5.png) no-repeat 0px 0px; }
-#page1 .ui-listview .ui-btn.btn_f { background: url(../images/main/75/6.png) no-repeat 0px 0px; }
+
 
 

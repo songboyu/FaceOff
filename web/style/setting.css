@@ -1,0 +1,129 @@
+#settingList{
+	padding: 0px;
+	list-style-type:none;
+}
+
+#settingList li{
+	position: relative;
+	background: #333;
+	background: -webkit-gradient( 
+		linear, 
+		left top, 
+		left bottom, 
+		from(rgba(207, 194, 194, 0.6) ), 
+		to( rgba(163, 170, 153, 0.8) ));
+	background: -webkit-linear-gradient( top, rgba(207, 194, 194, 0.2), rgba(163, 170, 153, 0.3) );
+	background: -moz-linear-gradient( top,rgba(207, 194, 194, 0.2), rgba(163, 170, 153, 0.3)  );
+	background: -ms-radial-gradient( top,rgba(207, 194, 194, 0.2), rgba(163, 170, 153, 0.3) );
+	background: -o-linear-gradient( top, rgba(207, 194, 194, 0.2), rgba(163, 170, 153, 0.3) );
+	background: linear-gradient( top, rgba(207, 194, 194, 0.2), rgba(163, 170, 153, 0.3)  );
+	border-bottom: 1px solid rgba(119, 146, 146,0.5);
+	-moz-box-shadow:2px 0px 5px #999 ;               
+	-webkit-box-shadow:2px 0px 5px #999 ;
+	box-shadow:2px 0px 5px #999;  
+}
+
+#settingList li.first{
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+
+#settingList li.last{
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+#settingList li .settingHead{
+	position: absolute;
+	width: 30%;
+	left: 0px;
+	text-align: left;
+	padding-left:10px;
+	padding-top: 20px;
+	font-size: 30px;
+}
+
+
+#settingList li .settingGroup{
+	width: 90%;
+	position: relative;
+	left: 10%;
+	margin-bottom: 0;
+	margin-top: 0;
+	padding: 8px 0 8px 0;
+	text-align: right;
+}
+
+#settingList li .ui-controlgroup-controls{
+	position: relative;
+	right:5px;
+}
+
+#settingList li .ui-radio-off{
+	text-shadow: 0 1px 0 #fff;
+	background-image: -webkit-gradient(linear, 
+		left top, left bottom, 
+		from( #ffefaa , to( #ffe155)));
+	background-image: -webkit-linear-gradient( #D3C9A0, #D4C991);
+	background-image: -moz-linear-gradient( #D3C9A0, #D4C991);
+	background-image: -ms-linear-gradient( #D3C9A0, #D4C991);
+	background-image: -o-linear-gradient( #D3C9A0, #D4C991);
+	background-image: linear-gradient( #D3C9A0, #D4C991);
+	border: 1px solid #B3902A;
+
+}
+
+#settingList li .ui-radio-off:hover{
+	color:#fff;
+	background-image: -webkit-gradient(linear, 
+		left top, left bottom, 
+		from( #ffefaa , to( #ffe155)));
+	background-image: -webkit-linear-gradient( #F0E6C1, #D4C991);
+	background-image: -moz-linear-gradient( #F0E6C1, #D4C991);
+	background-image: -ms-linear-gradient( #F0E6C1, #D4C991);
+	background-image: -o-linear-gradient( #F0E6C1, #D4C991);
+	background-image: linear-gradient( #F0E6C1, #D4C991);
+}
+#settingList li .ui-radio-on{
+	text-shadow: 0 1px 0 #fff;
+	background-image: -webkit-gradient(linear, 
+		left top, left bottom, 
+		from( #70CDF1 , to( #0893C9)));
+	background-image: -webkit-linear-gradient( #70CDF1, #0893C9);
+	background-image: -moz-linear-gradient( #70CDF1, #0893C9);
+	background-image: -ms-linear-gradient( #70CDF1, #0893C9);
+	background-image: -o-linear-gradient( #70CDF1, #0893C9);
+	background-image: linear-gradient( #70CDF1, #0893C9);
+	border: 1px solid #B3902A;
+
+}
+
+#settingList li .ui-radio-on:hover{
+	background-image: -webkit-gradient(linear, 
+		left top, left bottom, 
+		from( #207191 , to( #0893C9)));
+	background-image: -webkit-linear-gradient( #207191, #0893C9);
+	background-image: -moz-linear-gradient( #207191, #0893C9);
+	background-image: -ms-linear-gradient( #207191, #0893C9);
+	background-image: -o-linear-gradient( #207191, #0893C9);
+	background-image: linear-gradient( #207191, #0893C9);
+}
+
+#roamLabel .ui-icon-checkbox-on{
+	width:50px;
+	height:55px;
+	background-color: transparent;
+	background-image: url(images/checkbox_on-min.png);
+	background-repeat: no-repeat;
+	background-position:5px -3px;
+}
+
+#roamLabel .ui-icon-checkbox-off{
+	width:50px;
+	height:55px;
+	background-color: transparent;
+	background-image: url(images/checkbox_off-min.png);
+	background-repeat: no-repeat;
+	background-position:5px -3px;
+}
+
+
