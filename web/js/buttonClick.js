@@ -541,4 +541,6 @@ $( "#faceTop" ).click(function(data){
     var topShowImage = document.getElementById('topShowImage');
     topShowImage.src = topShowImageURL;
 });
-  
+$('#user').unbind('click').click(function() {
+    $('#renrenConnect').click();
+});

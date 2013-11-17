@@ -1,62 +1,40 @@
 .ui-page.ui-body-a.ui-page-active .ui-header.ui-bar-a { display: none; }
 
 #page1 .ui-content { 
+	padding-top: 125px; 
+	padding-bottom: 15px; 
+	margin: 0px 15px 10px 15px; 
+}
+#username{
+	font-size:13px
+}
+#user{
 	position: absolute;
-	height:100%;
-	width: 100%;
-	padding: 0px; 
-	margin: 0px; 
+	bottom: 110px;
+	left: 50px;
 }
-
-#mainButtons{
-	position: relative;
-	width: 100%;
-	margin-top:18%;
-	margin-bottom: 0px;
-	height:60%;
-}
-
-#page1,#page2,#page3,#page4,#page5,
-#page6,#page7,#page8,#page9,#page10,
-#page11,#page12,#page13 {
-	background-image: none;
+#page1 {
 	background-color: transparent;
 }
 #mainContent{
-	background-image: none;
 	background-color: transparent;
 }
 
 #page1 .ui-listview li{
 	background: transparent;
-	width: 24%;
-	display: inline-block;
-	border: none;
-	margin: 0px;
-}
-#page1 .ui-listview li a.ui-link-inherit{
-	width: 100%;
-	display: inline-block;
-	height: 130px;
-	font-size: .8em; 
-	font-weight: normal; 
-	text-align: center; 
-}
-
-#page1 .ui-listview li img{
-	position: relative;
-	max-width: 150px;
-	max-height: 150px;
-	width: 130px;
-	height:130px;
-	margin: auto;
 }
 
 #page1 .ui-listview { 
 	text-align: center; 
 	margin: auto;
-	width: 80%;
-	height:80%;
+	width: 500px;
+}
+
+#page1 .ui-listview .ui-btn {
+	width: 75px;
+	display: inline-block;
+	border: none;
+	margin: 0px 20px 20px 20px;
 }
 /* Wordmark and overlay */
 #wordmark {
@@ -69,9 +47,18 @@
 	margin: 0 auto;
 	display: block;
 }
+#page1 div.ui-content {
+	margin-top: 10%;
+}
 
 #page1 .ui-listview .ui-btn .ui-li { border: none; }
 #page1 .ui-listview .ui-btn .ui-li .ui-icon { display: none; }
+#page1 .ui-listview .ui-btn .ui-li .ui-link-inherit { 
+	font-size: .8em; 
+	font-weight: normal; 
+	padding: 80px 0px 0px 0px; 
+	text-align: center; 
+}
 
 
 

@@ -7,9 +7,14 @@
 	height: 30%;
 	display: inline-block;
 	border: none;
-	margin: 5% 0px 0px 5%;
+	margin: 10% 0px 0px 10%;
 	background-image: none;
 	background-color: transparent;
+}
+#user{
+	position: absolute;
+	top: 110px;
+	left: 30px;
 }
 /* Wordmark and overlay */
 #wordmark {
@@ -22,16 +27,9 @@
 	margin: 0 auto;
 	display: block;
 }
-
-#page1,#page2,#page3,#page4,#page5,
-#page6,#page7,#page8,#page9,#page10,
-#page11,#page12,#page13 {
-	background-image: none;
-	background-color: transparent;
-}
 #mainButtons{
 	position: absolute;
-	top:15%;
+	top:10%;
 	right:5%;
 	width: 70%;
 	height:70%;
@@ -42,20 +40,6 @@
 	width:100%;
 	max-width: 300px;
 	max-height: 300px;
-}
-.buttonName{
-	z-index: 100;
-	position: absolute;
-	width: 100%;
-	height:20%;
-	margin-top:-25%;
-	
-}
-.buttonName strong{
-	position: absolute;
-	width: 100%;
-	text-align: center;
-	bottom: 0px;
 }
 
 #page1 .ui-listview .ui-btn .ui-li { border: none; }

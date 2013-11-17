@@ -44,6 +44,13 @@ if (window.location.hash.length !== 0
 		success: function(jsonData)
 		{
 			renrenId = jsonData[0].uid;
+
+			document.getElementById("userpic").src=jsonData[0].tinyurl;
+			document.getElementById("username").innerHTML=jsonData[0].name;
+			$('#user').unbind('click').click(function() {
+			    $.mobile.changePage("#page3","slidedown", true, true);
+			});
+
 			query = new Parse.Query(settingRecord);
 			query.equalTo('renrenId',renrenId);
 			query.find().then(function(settingInfo){
