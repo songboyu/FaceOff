@@ -33,7 +33,6 @@ $(document).ready(function() {
     1000);
 });
 
-
 var jiathis_config;
 //添加浏览器运动传感事件
 if (window.DeviceMotionEvent) {
@@ -48,9 +47,14 @@ if(win_height > win_width){
     $("#bgImg").attr('src',"images/main/bg_mobile.jpg");
     $('#bgImg').width(win_width);
     $('#bgImg').height(win_height);
+    $('#nowork').css("margin-top","20%");
     
 } else {
     $('#head').append($('<link href="style/overrides.css" rel="stylesheet" type="text/css"/>'));
+    $('#nowork').css("margin-top","5%");
+}
+if(win_height>1000){
+    $('#settingList li .settingHead').css("font-size", "30px");
 }
 
 

@@ -474,7 +474,7 @@ var win_width = $(window).width();
 var win_height = $(window).height();
 
 //配置信息
-var SERVER_URL = "http://xiangt920.eicp.net:8888";
+var SERVER_URL = "http://soongboyu.eicp.net";
 var mediaLoaded = false;
 var smartRec = true;
 var musicOn = true;
@@ -488,7 +488,7 @@ var playmode = ORDER;
 var choosedFacebookInfo;
 var choosedFBCount = 0;
 var faceInfo;
-var compeleted = false; //是否完成 
+var completed = false; //是否完成 
 var started = false;   //是否开始
 var choosedFacebook = [];
 var RecedIndex ;
