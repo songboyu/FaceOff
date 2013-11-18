@@ -196,6 +196,14 @@ body {
 	box-shadow:1px 1px 7px #000;}
 .photolist li img { display: block; width: 100%; height: auto; }
 
+.nearPeople{
+	width: 100%;
+}
+#nearPeoplescroller{
+	position: absolute;
+	width: 100%;
+}
+
 
 #wrapper{
 	position:absolute;

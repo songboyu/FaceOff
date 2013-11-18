@@ -659,7 +659,7 @@ $( "#faceTop" ).unbind('click').click(function(data){
 });
 
 $( "#nearPeople" ).unbind('click').click(function(data){
-    console.log(data);
+    // console.log(data);
     var topShowImageURL;
     var $target = $(data.target);
 
