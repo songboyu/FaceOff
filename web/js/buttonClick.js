@@ -50,6 +50,8 @@ $('#createVideo').click(function(){
 $('#snap').click(function(){
     clearCanvas();
 
+    document.getElementById("nowork").style.display = "none";
+
     document.getElementById("canvas").style.display="none";
     document.getElementById("video").style.display="none";
     document.getElementById("snap").style.display="none";

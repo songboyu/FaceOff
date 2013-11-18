@@ -608,6 +608,8 @@ function drawImg(src) {
 }
 //上传图片事件
 function uploadFile() {
+    document.getElementById("nowork").style.display = "none";
+
     document.getElementById('img').style.display = 'none';
 
     document.getElementById("canvas").style.display = "none";
