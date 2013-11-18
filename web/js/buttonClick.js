@@ -86,6 +86,105 @@ $('#snap').click(function(){
     currentImg.src = imgAsDataURL;
 });
 
+
+$('#near').unbind('click').click(function()
+{
+    //var x=document.getElementById("demo");
+    cl5.show();
+    if($('#nearPeople'))
+        $('#nearPeople').empty();
+    if (navigator.geolocation)
+    {
+        $('#nearPeoplescroller').height(win_height * 0.936);
+        $('#nearHeader').height(win_height * 0.06);
+        $('#nearPeoplescroller').css('top',win_height * 0.064);
+        navigator.geolocation.getCurrentPosition(function (pos){
+            lat=pos.coords.latitude;
+            lon=pos.coords.longitude;
+            query = new Parse.Query(faceRecord);
+            query.find().then(function(info) { 
+                var file_len = info.length;
+                var count = 0;
+                for (var i = 0; i < file_len; i++) {
+                    if(count > 15) break;
+                    var user_lat = info[i].get('lat');
+                    var user_lon = info[i].get('lon');
+                    var userName = info[i].get('username');
+                    var filename = info[i].get('filename');
+                    var distance = GetDistance(lat,lon,user_lat,user_lon);
+                    if(distance < 200){
+                        count ++;
+                        var li = $('<li></li>');
+                        var hr = $('<a></a>');
+                        var img = document.createElement('img');
+                        img.src = 'images/withFace/'+filename;
+                        img.width = 50;
+                        img.height = 80;
+                        hr.append(img);
+                        var div = $('<div class="u"></div>');
+                        div.append($('<p class="username">'
+                            +(userName.length == 0 ? '佚名':userName)+'</p>'));
+                        div.append('<p  class="ui-li-aside">'+
+                        filename.substring(0,4)+'年'+
+                        filename.substring(4,6)+'月'+
+                        filename.substring(6,8)+'日 '+
+                        filename.substring(8,10)+':'+
+                        filename.substring(10,12)+'</p>');
+                        div.append($('<span>我们相距'+distance+'公里</span>'));
+                        hr.append(div);
+                        li.append(hr);
+                        $('#nearPeople').append(li);
+                    }
+                }
+                $( "#nearPeople" ).listview( "refresh" );
+                if(myScroll)
+                    myScroll.destroy();
+                myScroll = new iScroll('nearPeoplescroller', {
+                    scrollbarClass: 'myScrollbar',
+                    momentum: false,
+                    useTransform: false,
+                    onScrollStart:function (){
+                        $('.myScrollbarV').css('display','');
+                    },
+                    onScrollEnd:function (){
+                        $('.myScrollbarV').css('display','none');
+                    }
+                });
+                myScroll.refresh();
+                cl5.hide();
+                $('.myScrollbarV div').css('height',
+                    $('#topShowContent').height() * 
+                    $('#topShowContent').height() /
+                    $('#topShowScroll').height());
+                $('.myScrollbarV').css('display','none');
+            });
+        },function (error){
+            cl5.hide();
+            console.log(error);
+            switch(error.code) 
+            {
+                case error.PERMISSION_DENIED:
+                  $('#nearPeoplescroller').html('<p>没有权限获取位置信息，请查看浏览器设置<p>');
+                  break;
+                case error.POSITION_UNAVAILABLE:
+                  $('#nearPeoplescroller').html('<p>位置信息不可用<p>');
+                  break;
+                case error.TIMEOUT:
+                  $('#nearPeoplescroller').html('<p>获取位置信息超时<p>');
+                  break;
+                case error.UNKNOWN_ERROR:
+                  $('#nearPeoplescroller').html('<p>取位置信息时发生未知错误<p>');
+                  break;
+            }
+        },
+        {maximumAge: 10000});
+    }
+    else{
+        cl5.hide();
+        $('#nearPeoplescroller').html('<p>浏览器不支持获取位置信息<p>');
+    }
+});
+
 //确认按钮点击事件，发送数请求据
 $('#confirm').click(function(){
     completed = false;
@@ -113,7 +212,7 @@ $('#confirm').click(function(){
 
 //返回画板
 $('#gotoPage2').click(function(){
-    if(!completed){
+    if(!completed && started){
         if($('div.tooltip')){
             setTimeout(function(){
                 $('div.tooltip').show();
@@ -140,9 +239,23 @@ $('#ok').click(function(){
         success: function (filename)
         {  
             cl.hide();
+            var lat = -1;
+            var lon = -1;
             var g_upScore = new faceRecord();
-
-            g_upScore.save({filename:filename,up:0,down:0,score_user:0});
+            if (navigator.geolocation)
+            {
+                navigator.geolocation.getCurrentPosition(function(pos){
+                    lat=pos.coords.latitude;
+                    lon=pos.coords.longitude;
+                    g_upScore.save({filename:filename,up:0,down:0,score_user:0,lat:lat,lon:lon,username:renrenName});
+                },function(error){
+                    console.log(error);
+                    g_upScore.save({filename:filename,up:0,down:0,score_user:0,lat:lat,lon:lon,username:renrenName});
+                },
+                {maximumAge: 10000});
+            } else{
+                g_upScore.save({filename:filename,up:0,down:0,score_user:0,lat:lat,lon:lon,username:renrenName});
+            }
             document.getElementById('confirm').style.display="none";
             document.getElementById('changeFace').style.display="none";
             document.getElementById('ok').style.display="none";
@@ -174,7 +287,7 @@ $("#imageShow").unbind('click').click(function(){
         msnry.destroy();
     $('.gallery').empty();
 
-    var query = new Parse.Query(faceRecord);
+    query = new Parse.Query(faceRecord);
     query.find().then(function(info) {
         var imgCount = 0;
         var file_len = info.length;
@@ -192,7 +305,7 @@ $("#imageShow").unbind('click').click(function(){
             $('#galleryContent').css('top',win_height * 0.055 +'px');
 
         }
-        gallery_loaded = function() {
+        gallery_loaded = function(){
             var flip = false;
             myScroll = new iScroll('galleryContent', {
                 scrollbarClass: 'myScrollbar',
@@ -377,6 +490,9 @@ $('#radio_faceTop_score').unbind('click').click(function() {
         dataType:"json",  
         success: function (filenames)
         { 
+            $('#topShowContent').height(win_height * 0.936);
+            $('#topHeader').height(win_height * 0.06);
+            $('#topShowContent').css('top',win_height * 0.064);
             $('#faceTop').empty();
             var arr = new Array();
             for (var i = 0, len = filenames.length; i < len; i++) {
@@ -427,9 +543,7 @@ $('#radio_faceTop_score').unbind('click').click(function() {
                 $('#faceTop').append(li);
             }
             $( "#faceTop" ).listview( "refresh" );
-            $('#topShowContent').height(win_height * 0.936);
-            $('#topHeader').height(win_height * 0.06);
-            $('#topShowContent').css('top',win_height * 0.064);
+            
             setTimeout( function () {
                 cl2.hide();
                 if(myScroll)
@@ -524,7 +638,7 @@ $('#radio_faceTop_user').unbind('click').click(function() {
     
 });
 
-$( "#faceTop" ).click(function(data){
+$( "#faceTop" ).unbind('click').click(function(data){
     var topShowImageURL;
     var $target = $(data.target);
     if( $target.is("A") ) {
@@ -543,6 +657,31 @@ $( "#faceTop" ).click(function(data){
     var topShowImage = document.getElementById('topShowImage');
     topShowImage.src = topShowImageURL;
 });
+
+$( "#nearPeople" ).unbind('click').click(function(data){
+    console.log(data);
+    var topShowImageURL;
+    var $target = $(data.target);
+
+    
+    if( $target.is("A") ) {
+        topShowImageURL = $target.children()[0].src;
+    }
+    else if ( $target.is("div"))  {
+        topShowImageURL = $target.prev().attr('src');
+    }
+    else if($target.is("span") || $target.is("p")) {
+        topShowImageURL = $($target.parent()).prev().attr('src');
+    }
+    else {
+        topShowImageURL = data.target.src;
+    }
+    var topShowImage = document.getElementById('nearPeopleImage');
+    topShowImage.src = topShowImageURL;
+    $.mobile.changePage("#page14","slidedown", true, true);
+    
+});
+
 $('#user').unbind('click').click(function() {
     $('#renrenConnect').click();
 });

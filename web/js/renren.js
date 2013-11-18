@@ -13,7 +13,7 @@ if (window.location.hash.length !== 0
 	document.getElementById("renrenConnect").style.display="none";
 	document.getElementById("friends").style.display="";
 	var album = $('<a data-role="button" href="#page5" data-transition="slidedown" data-icon="arrow-l" data-inline="true" data-theme="a">好友照片</a>');
-	album.insertBefore('#ok');
+	album.insertBefore('#confirm');
 	var access = window.location.hash.substring(1);
 	var start = access.indexOf('=')+1;
 	var end = access.indexOf('&');
@@ -44,9 +44,10 @@ if (window.location.hash.length !== 0
 		success: function(jsonData)
 		{
 			renrenId = jsonData[0].uid;
+			renrenName = jsonData[0].name;
 
 			document.getElementById("userpic").src=jsonData[0].tinyurl;
-			document.getElementById("username").innerHTML=jsonData[0].name;
+			document.getElementById("username").innerHTML=renrenName;
 			$('#user').unbind('click').click(function() {
 			    $.mobile.changePage("#page3","slidedown", true, true);
 			});

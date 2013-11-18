@@ -495,6 +495,7 @@ var RecedIndex ;
 
 //人人用户信息
 var renrenId;
+var renrenName = '';
 
 //读取脸谱图片
 var imgs = [];
@@ -541,3 +542,12 @@ cl4.setDiameter(62); // default is 40
 cl4.setDensity(24); // default is 40
 cl4.setRange(1); // default is 1.3
 cl4.setFPS(14); // default is 24
+
+/////////////////////////////////////////////////////////////////////
+var cl5 = new CanvasLoader('canvasloader-container5');
+cl5.setColor('#0e4d38'); // default is '#000000'
+cl5.setShape('rect'); // default is 'oval'
+cl5.setDiameter(62); // default is 40
+cl5.setDensity(24); // default is 40
+cl5.setRange(1); // default is 1.3
+cl5.setFPS(14); // default is 24

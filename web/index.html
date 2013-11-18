@@ -70,8 +70,8 @@
                                 <img src='images/main/75/4.png'/>
                             </a>
                         </li>
-                        <li class="btn_h" id="near">
-                            <a href="#">
+                        <li class="btn_h" >
+                            <a href="#page13" id="near">
                                 <img src='images/main/75/7.png'/>
                             </a>
                         </li>
@@ -407,6 +407,25 @@
                     <input type='checkbox' id='roamSetting' value='0'/>
                 </label>
                 
+            </div>
+        </div>
+        <div data-role="page" id="page13">
+            <div data-role="header" id='nearHeader'>
+                <h1></h1>
+                <a data-role="button" href="#page1" data-transition="slideup" data-icon="home" data-dom-cache="true">主页</a>
+            </div>
+            <div id='nearPeoplescroller' >
+                <ul id="nearPeople" class = "nearPeople" data-role="listview" data-inset="true"></ul>
+            </div>
+            <div id="canvasloader-container5" class="wrapper"></div>
+        </div>
+        <div data-role="page" id="page14">
+            <div data-role="header">
+                <h1></h1>
+                <a data-role="button" href="#page13" data-transition="slideup" data-icon="arrow-l" data-dom-cache="true">返回</a>
+            </div>
+            <div data-role="content">
+                <img id="nearPeopleImage"/>
             </div>
         </div>
         <script type="text/javascript" src="js/information.js"></script>
